@@ -19,10 +19,10 @@ backend "s3" {
 cluster "packet" {
   project_id   = var.metal_project_id
   cluster_name = "test-wrk2"
-  facility     = "dfw2"
+  facility     = "sv15"
 
   # no t1.small in DFW2
-  controller_type = "x1.small.x86"
+  controller_type = "c3.small.x86"
   asset_dir        = "./assets"
   controller_count = 1
 
@@ -38,7 +38,7 @@ cluster "packet" {
 
   worker_pool "workload" {
     count = 6
-    node_type = "m2.xlarge.x86"
+    node_type = "n2.xlarge.x86"
     labels    = {
         "role" = "workload"
     }
@@ -47,7 +47,7 @@ cluster "packet" {
   # Reserved for the load generator
   worker_pool "loadgenerator" {
     count = 1
-    node_type = "m2.xlarge.x86"
+    node_type = "n2.xlarge.x86"
     labels    = {
         "role" = "benchmark"
     }

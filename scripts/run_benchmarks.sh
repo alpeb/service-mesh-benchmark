@@ -207,7 +207,7 @@ function delete_istio() {
 # --
 
 function run_benchmarks() {
-    for rps in 500 1000 1500 2000 2500 3000 3500 4000 4500 5000 5500; do
+    for rps in 20 200 2000; do
         for repeat in 1 2 3 4 5; do
 
             echo "########## Run #$repeat w/ $rps RPS"
@@ -225,6 +225,7 @@ function run_benchmarks() {
                 sleep 5
                 lokoctl component apply experimental-linkerd; }
 
+            linkerd check
             grace "kubectl get pods --all-namespaces | grep linkerd | grep -v Running"
 
             install_emojivoto linkerd
@@ -269,4 +270,13 @@ function run_benchmarks() {
 
 if [ "$(basename $0)" = "run_benchmarks.sh" ] ; then
     run_benchmarks $@
+    #delete_emojivoto
+    #linkerd viz uninstall|kubectl delete -f -
+    #lokoctl component delete experimental-linkerd --delete-namespace --confirm
+    #kubectl delete namespace linkerd --now --timeout=30s
+    #delete_istio
+    #helm uninstall benchmark --namespace benchmark
+    #kubectl delete ns benchmark --wait
+    #helm uninstall --namespace metrics-merger metrics-merger
+    #kubectl delete ns metrics-merger --wait
 fi
